@@ -75,15 +75,21 @@ action "push-changelog" {
   args = "push"
 }
 
+action "checkout-develop" {
+  uses = "actions/bin/sh@master"
+  args = ["git checkout origin/develop", "git pull"]
+  needs = "tag"
+}
+
 action "bumpver" {
   uses = "./.github/actions/bumpver"
-  needs = "tag"
+  needs = "checkout-develop"
 }
 
 action "auto-commit" {
   uses = "./.github/actions/auto-commit"
   needs = ["bumpver"]
-  args = "This is an auto-commit"
+  args = ["develop", ".release", "bumpver"]
   secrets = ["GITHUB_TOKEN"]
 }
 
