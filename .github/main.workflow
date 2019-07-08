@@ -16,6 +16,7 @@ workflow "Tag" {
 action "generate-release-changelog" {
   uses = "docker://ferrarimarco/github-changelog-generator:1.15.0.pre.beta"
   secrets = ["CHANGELOG_GITHUB_TOKEN"]
+  needs = "created-filter"
   env = {
     SRC_PATH = "/github/workspace"
   }
@@ -41,6 +42,11 @@ action "is-master" {
   needs = "not-auto"
   args = "branch master"
   secrets = ["GITHUB_TOKEN"]
+}
+
+action "created-filter" {
+  uses = "actions/bin/filter@master"
+  args = "action created"
 }
 
 action "tag" {
