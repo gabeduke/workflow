@@ -9,5 +9,5 @@ git stash
 git checkout "${BRANCH}"
 git pull
 git stash pop
-git add -A && git commit -m 'bumpver' --allow-empty
+git add .release && git commit -m 'bumpver' --allow-empty
 git push -u origin "${BRANCH}"
