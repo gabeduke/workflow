@@ -1,13 +1,9 @@
 #!/bin/bash
 set -e
 
-BRANCH=develop
+BRANCH=${1:-develop}
 
 git config --global user.name 'autobot'
 git config --global user.email 'autobot@leetserve.com'
-git stash
-git checkout "${BRANCH}"
-git pull
-git stash pop
-git add -A && git commit -m 'bumpver' --allow-empty
+git add ${2:-.release} && git commit -m ${3:-'default commit message'} --allow-empty
 git push -u origin "${BRANCH}"
